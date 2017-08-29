@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CodeChallengeRunner.Challenges.Shared;
 using CodeChallengeRunner.Challenges.Bowling;
+using CodeChallengeRunner.Challenges.BankOCR;
 
 namespace CodeChallengeRunner.Challenges
 {
@@ -14,7 +15,7 @@ namespace CodeChallengeRunner.Challenges
         {
             services.AddSingleton<RandomProvider>();
             services.AddSingleton<BowlingChallengeRunner>();
-
+            services.AddSingleton<BankOCRChallengeRunner>();
         }
     }
 }

@@ -6,6 +6,7 @@ using CodeChallengeRunner.Challenges.Shared;
 
 namespace CodeChallengeRunner.Challenges.Bowling
 {
+    // From: http://codingdojo.org/kata/Bowling/
     public class BowlingChallengeRunner
     {
         private RandomProvider random;

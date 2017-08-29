@@ -5,34 +5,34 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CodeChallengeRunner.Challenges.Shared;
-using CodeChallengeRunner.Challenges.Bowling;
+using CodeChallengeRunner.Challenges.BankOCR;
 using Microsoft.Extensions.Logging;
 
 namespace CodeChallengeRunner.Controllers
 {
     [Route("api/[controller]")]
-    public class BowlingController : Controller
+    public class BankOCRController : Controller
     {
-        private BowlingChallengeRunner challengeRunner;
-        private ILogger log;
+        private BankOCRChallengeRunner challengeRunner;
 
-        public BowlingController(BowlingChallengeRunner runner, ILogger<BowlingController> logger)
+        public BankOCRController(BankOCRChallengeRunner runner)
         {
             challengeRunner = runner;
-            log = logger;
         }
-        
+
         [HttpGet]
-        public BowlingChallengeOutput Get()
+        public BankOCRChallengeOutput Get()
         {
+
             var challenge = challengeRunner.GetRandomChallenge();
-            return new BowlingChallengeOutput() { Id = challenge.Id, Frames = challenge.Frames };
+            var printed = String.Join("\n", challenge.PrintedNumbers);
+            return new BankOCRChallengeOutput() { Id = challenge.Id, PrintedNumbers = printed };
         }
-        
+
         [HttpPost]
-        public CodeChallengeResult Post([FromBody] BowlingChallengeInput input)
+        public CodeChallengeResult Post([FromBody] BankOCRChallengeInput input)
         {
-            var correct = challengeRunner.TestChallenge(input.Id, input.Score);
+            var correct = challengeRunner.TestChallenge(input.Id, input.Value);
             var result = new CodeChallengeResult(correct);
 
             if (!correct)
@@ -48,9 +48,9 @@ namespace CodeChallengeRunner.Controllers
         public string Help()
         {
             var helpText = @"
-Return the score for the bowling game defined in the provided frames.
+Parse the printed numbers into a string value. Each digit is 3 characters wide.
 
-Respond with HTTP POST and json body of { id: $id$, score: $yourScore$ }";
+Respond with HTTP POST and json body of { id: $id$, value: $yourScore$ }";
 
             return helpText;
         }

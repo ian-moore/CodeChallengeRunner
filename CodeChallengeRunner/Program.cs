@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.ApplicationInsights.Extensibility.Implementation;
 
 namespace CodeChallengeRunner
 {
@@ -14,6 +15,8 @@ namespace CodeChallengeRunner
     {
         public static void Main(string[] args)
         {
+            TelemetryDebugWriter.IsTracingDisabled = true;
+
             BuildWebHost(args).Run();
         }
 
@@ -21,6 +24,7 @@ namespace CodeChallengeRunner
         {
             return WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .ConfigureLogging(builder => builder.AddConsole())
                 .Build();
         }
     }
